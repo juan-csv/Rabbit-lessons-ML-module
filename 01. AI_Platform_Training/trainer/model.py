@@ -11,33 +11,9 @@ from tensorflow.keras.layers import Input, Dense, Dropout
 from tensorflow.keras.losses import BinaryCrossentropy
 from tensorflow.keras.callbacks import EarlyStopping
 #----------------------------------------------------------------
-# INPUTS ARGS
-KEY = "/Users/macbook/Desktop/Rabbit/key/key.json"
-# info del bucket
-BUCKET = "datasets-rabbit"
-FILE_TRAIN = "train_census.csv"
-FILE_VAL = "validation_census.csv"
-# Model parameters
-DENSE_UNITS = 32
-EPOCHS = 128
-BATCH_SIZE = 256
-
-args = {
-    # INPUTS ARGS
-    "KEY":"/Users/macbook/Desktop/Rabbit/key/key.json",
-    # info del bucket
-    "BUCKET":"datasets-rabbit",
-    "FILE_TRAIN":"train_census.csv",
-    "FILE_VAL":"validation_census.csv",
-    "OUTPUT_DIR":"models",
-    # Model parameters
-    "DENSE_UNITS":32,
-    "EPOCHS":10,
-    "BATCH_SIZE":256
-}
 #----------------------------------------------------------------
 
-def download_ds(BUCKET, FILE, KEY=KEY):
+def download_ds(BUCKET, FILE, KEY=None):
     # instancio cliente
     try:
         client_storage = storage.Client()
@@ -54,12 +30,12 @@ def get_features(df):
     return x,y
 
 def load_data(BUCKET,FILE):
-    download_ds(BUCKET,FILE_TRAIN)
+    download_ds(BUCKET,FILE)
     df = pd.read_csv(FILE)
     x,y = get_features(df)
     return x,y
 
-def build_model(DENSE_UNITSS=32):
+def build_model(DENSE_UNITS=32):
     inputs = Input(shape=(80,))
     h = Dense(units=DENSE_UNITS, activation='relu')(inputs)
     h = Dropout(0.5)(h)

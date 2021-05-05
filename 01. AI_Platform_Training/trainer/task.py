@@ -2,19 +2,22 @@ import argparse
 import json
 import os
 
-try:
-    from trainer import model
-except:
-    import model
+from trainer import model
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    
+    parser.add_argument(
+        "--job-dir",
+        help="this model ignores this field, but it is required by gcloud",
+        default="junk"
+    )
+    
     parser.add_argument(
         "--KEY",
         help="Service account",
         required=False,
-        default="/Users/macbook/Desktop/Rabbit/key/key.json"
     )
 
     parser.add_argument(
@@ -35,7 +38,8 @@ if __name__ == '__main__':
     parser.add_argument(
         "--OUTPUT_DIR",
         help="GCS location to write checkpoints and export models",
-        required=True
+        required=True,
+        default="models"
     )
     parser.add_argument(
         "--EPOCHS",

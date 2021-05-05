@@ -29,8 +29,8 @@ def get_features(df):
     y = np.array(df["income_bracket"])
     return x,y
 
-def load_data(BUCKET,FILE):
-    download_ds(BUCKET,FILE)
+def load_data(BUCKET,FILE,KEY=None):
+    download_ds(BUCKET,FILE,KEY)
     df = pd.read_csv(FILE)
     x,y = get_features(df)
     return x,y
@@ -55,11 +55,17 @@ def train_and_evaluate(args):
 
     print("\n")
     print("Prepare dataset ...")
+    
+    try:
+        KEY = args["KEY"]
+    except:
+        KEY = None
+
     # load data train
-    x_train, y_train = load_data(args["BUCKET"], args["FILE_TRAIN"])
+    x_train, y_train = load_data(args["BUCKET"], args["FILE_TRAIN"], KEY)
 
     # load data validation
-    x_val, y_val = load_data(args["BUCKET"], args["FILE_VAL"])
+    x_val, y_val = load_data(args["BUCKET"], args["FILE_VAL"], KEY)
 
     # define callbacks
     early_stopping = EarlyStopping(monitor="val_loss",patience=5)

@@ -1,3 +1,8 @@
+key
+key/*
+training-data-analyst
+training-data-analyst/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

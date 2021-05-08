@@ -13,7 +13,6 @@ if __name__ == '__main__':
         help="this model ignores this field, but it is required by gcloud",
         default="junk"
     )
-    
     parser.add_argument(
         "--KEY",
         help="Service account",

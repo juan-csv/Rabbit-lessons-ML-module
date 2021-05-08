@@ -66,7 +66,7 @@ def train_and_evaluate(args):
 
     # load data validation
     x_val, y_val = load_data(args["BUCKET"], args["FILE_VAL"], KEY)
-
+    
     # define callbacks
     early_stopping = EarlyStopping(monitor="val_loss",patience=5)
 

@@ -25,18 +25,24 @@ def download_ds(BUCKET, FILE, KEY=None):
     blob.download_to_filename(FILE)
 
 def get_features(df):
-    x = np.array(df.drop(["income_bracket","dataframe"], axis=1))
+    try:
+        x = np.array(df.drop(["income_bracket","dataframe"], axis=1))
+    except:
+        x = np.array(df.drop(["income_bracket"], axis=1))
     y = np.array(df["income_bracket"])
     return x,y
 
-def load_data(BUCKET,FILE,KEY=None):
-    download_ds(BUCKET,FILE,KEY)
+def load_data(BUCKET,FILE,KEY=None, LOCAL=None):
+    if LOCAL:
+        pass
+    else:
+        download_ds(BUCKET,FILE,KEY)
     df = pd.read_csv(FILE)
     x,y = get_features(df)
     return x,y
 
 def build_model(DENSE_UNITS=32):
-    inputs = Input(shape=(80,))
+    inputs = Input(shape=(81,))
     h = Dense(units=DENSE_UNITS, activation='relu')(inputs)
     h = Dropout(0.5)(h)
     h = Dense(units=DENSE_UNITS, activation='relu')(h)
